@@ -12,8 +12,35 @@ django = "^4.2.6"
 djangorestframework = "^3.14.0"
 psycopg2 = "^2.9.9"
 python-dotenv = "^1.0.0"
+pre-commit = "^3.5.0"
+isort = "^5.12.0"
+black = "^23.10.0"
+flake8 = "^6.1.0"
+mypy = "^1.6.1"
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+line_length = 120
+skip = ['venv']
+lines_after_imports = 2
+
+[tool.black]
+line-length = 120
+
+[tool.mypy]
+python_version = 3.11
+disallow_untyped_defs = true
+check_untyped_defs = true
+ignore_missing_imports = true
+explicit_package_bases = true
+exclude = ['venv', 'manage.py', 'migrations']
+
+#[mypy-src.repositories.base.sqlalchemy]
+#ignore_errors = true
+#
+#[mypy-src.config]
+#ignore_errors = true
