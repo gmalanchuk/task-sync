@@ -1,13 +1,8 @@
 from rest_framework.serializers import ModelSerializer
 
-from tasks.models.board import Board
-from tasks.models.task import Task, TaskStatus
-
-
-class BoardSerializer(ModelSerializer):
-    class Meta:
-        model = Board
-        fields = "__all__"
+from tasks.models.board_model import Board
+from tasks.models.task_model import Task, TaskStatus
+from tasks.serializers.board_serializer import BoardSerializer
 
 
 class TaskStatusSerializer(ModelSerializer):
