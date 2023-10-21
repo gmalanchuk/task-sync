@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 
-from tasks.models import Task
+from tasks.models.task import Task
 from tasks.serializers import TaskSerializer
 
 

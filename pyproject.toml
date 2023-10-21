@@ -38,9 +38,3 @@ check_untyped_defs = true
 ignore_missing_imports = true
 explicit_package_bases = true
 exclude = ['venv', 'manage.py', 'migrations']
-
-#[mypy-src.repositories.base.sqlalchemy]
-#ignore_errors = true
-#
-#[mypy-src.config]
-#ignore_errors = true
