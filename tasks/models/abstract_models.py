@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class AbsTimeStamp(models.Model):
+class AbsTimeStampModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -9,7 +9,7 @@ class AbsTimeStamp(models.Model):
         abstract = True
 
 
-class AbsOwnerID(models.Model):
+class AbsOwnerIDModel(models.Model):
     owner_id = models.IntegerField(null=True, blank=True)
 
     class Meta:
