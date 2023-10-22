@@ -1,10 +1,10 @@
 from django.db import models
 
-from tasks.models.abstract_models import AbsOwnerID, AbsTimeStamp
+from tasks.models.abstract_models import AbsOwnerIDModel, AbsTimeStampModel
 from tasks.models.board_model import Board
 
 
-class Column(AbsTimeStamp, AbsOwnerID):
+class Column(AbsTimeStampModel, AbsOwnerIDModel):
     title = models.CharField(max_length=32)
     board = models.ForeignKey(to=Board, on_delete=models.CASCADE)
 

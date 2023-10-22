@@ -1,9 +1,9 @@
 from django.db import models
 
-from tasks.models.abstract_models import AbsOwnerID, AbsTimeStamp
+from tasks.models.abstract_models import AbsOwnerIDModel, AbsTimeStampModel
 
 
-class Board(AbsTimeStamp, AbsOwnerID):
+class Board(AbsTimeStampModel, AbsOwnerIDModel):
     title = models.CharField(max_length=32)
 
     class Meta:
