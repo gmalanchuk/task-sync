@@ -1,4 +1,5 @@
 import os
+import socket
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -32,6 +33,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "drf_spectacular",
+    "debug_toolbar",
     "tasks",
 ]
 
@@ -43,7 +46,12 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
+
+if DEBUG:
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + ["127.0.0.1", "10.0.2.2"]
 
 ROOT_URLCONF = "config.urls"
 
@@ -121,3 +129,38 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "TaskSync API",
+    "DESCRIPTION": "API for task tracker",
+    "VERSION": "1.0.0",
+}
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "basic": {
+            "format": "{levelname} {asctime} {pathname} | {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "file": {
+            "level": "WARNING",
+            "class": "logging.FileHandler",
+            "filename": "log.log",
+            "formatter": "basic",
+        },
+    },
+    "loggers": {
+        "tasks": {
+            "handlers": ["file"],
+            "level": "WARNING",
+        },
+    },
+}
