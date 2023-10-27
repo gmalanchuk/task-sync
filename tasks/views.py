@@ -8,6 +8,8 @@ from tasks.serializers import BoardSerializer, ColumnSerializer, TaskSerializer
 class BoardViewSet(ModelViewSet):
     queryset = Board.objects.all()
     serializer_class = BoardSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ("owner_id",)
 
 
 class ColumnViewSet(ModelViewSet):
@@ -20,3 +22,5 @@ class ColumnViewSet(ModelViewSet):
 class TaskViewSet(ModelViewSet):
     queryset = Task.objects.all().prefetch_related("tags")
     serializer_class = TaskSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ("column",)

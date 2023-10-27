@@ -10,7 +10,7 @@ class AbsTimeStampModel(models.Model):
 
 
 class AbsOwnerIDModel(models.Model):
-    owner_id = models.IntegerField(null=True, blank=True)
+    owner_id = models.PositiveIntegerField(null=True, blank=True)
 
     class Meta:
         abstract = True
