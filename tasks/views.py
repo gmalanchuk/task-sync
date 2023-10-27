@@ -1,12 +1,8 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.viewsets import ModelViewSet
 
 from tasks.models import Board, Column, Task
 from tasks.serializers import BoardSerializer, ColumnSerializer, TaskSerializer
-
-
-class TaskViewSet(ModelViewSet):
-    queryset = Task.objects.all()
-    serializer_class = TaskSerializer
 
 
 class BoardViewSet(ModelViewSet):
@@ -17,3 +13,10 @@ class BoardViewSet(ModelViewSet):
 class ColumnViewSet(ModelViewSet):
     queryset = Column.objects.all()
     serializer_class = ColumnSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ("board",)
+
+
+class TaskViewSet(ModelViewSet):
+    queryset = Task.objects.all().prefetch_related("tags")
+    serializer_class = TaskSerializer

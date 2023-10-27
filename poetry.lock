@@ -155,6 +155,20 @@ django = ">=3.2.4"
 sqlparse = ">=0.2"
 
 [[package]]
+name = "django-filter"
+version = "23.3"
+description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "django-filter-23.3.tar.gz", hash = "sha256:015fe155582e1805b40629344e4a6cf3cc40450827d294d040b4b8c1749a9fa6"},
+    {file = "django_filter-23.3-py3-none-any.whl", hash = "sha256:65bc5d1d8f4fff3aaf74cb5da537b6620e9214fb4b3180f6c560776b1b6dccd0"},
+]
+
+[package.dependencies]
+Django = ">=3.2"
+
+[[package]]
 name = "djangorestframework"
 version = "3.14.0"
 description = "Web APIs for Django, made easy."
@@ -764,4 +778,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "cc110855fd63de1b953ca6401dfaff51552d7eb054baf817e37eb05ce4730e65"
+content-hash = "ec44f5ef9877d3357e6c4ba7cb599ab6d3f8e2f58d68d7eee78a74389f881c4f"
