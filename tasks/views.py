@@ -1,6 +1,9 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.request import Request
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
+from tasks.grpc_client import run
 from tasks.models import Board, Column, Task
 from tasks.serializers import BoardSerializer, ColumnSerializer, TaskSerializer
 
@@ -10,6 +13,10 @@ class BoardViewSet(ModelViewSet):
     serializer_class = BoardSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ("owner_id",)
+
+    def list(self, request: Request, *args: tuple, **kwargs: dict) -> Response:
+        run()
+        return super().list(request, *args, **kwargs)
 
 
 class ColumnViewSet(ModelViewSet):
