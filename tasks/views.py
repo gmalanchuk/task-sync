@@ -1,10 +1,10 @@
+from typing import Any
+
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.request import Request
-from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from tasks.grpc_services.greeter import check_permission
 from tasks.models import Board, Column, Task
+from tasks.permissions.is_admin import is_admin_user
 from tasks.serializers import BoardSerializer, ColumnSerializer, TaskSerializer
 
 
@@ -14,8 +14,8 @@ class BoardViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ("owner_id",)
 
-    def list(self, request: Request, *args: tuple, **kwargs: dict) -> Response:
-        check_permission()
+    @is_admin_user
+    def list(self, request: Any, *args: Any, **kwargs: Any) -> Any:
         return super().list(request, *args, **kwargs)
 
 

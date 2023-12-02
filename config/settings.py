@@ -19,6 +19,8 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = "True" if str(os.environ.get("DEBUG")).lower() == "true" else "False"
+AUTHENTICATION_SERVICE_DOMAIN = os.environ.get("AUTHENTICATION_SERVICE_DOMAIN")
+GRPC_PORT = os.environ.get("GRPC_PORT")
 
 ALLOWED_HOSTS: list = []
 
