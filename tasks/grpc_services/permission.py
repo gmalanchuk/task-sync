@@ -6,9 +6,7 @@ from tasks.protos.permission_pb2_grpc import PermissionStub
 
 
 def check_permission(token: str) -> None | str:
-    with grpc.insecure_channel(
-        f"{AUTHENTICATION_SERVICE_DOMAIN}:{GRPC_PORT}"
-    ) as channel:  # todo вынести порт и домен в .env
+    with grpc.insecure_channel(f"{AUTHENTICATION_SERVICE_DOMAIN}:{GRPC_PORT}") as channel:
         stub = PermissionStub(channel)
         try:
             response = stub.CheckPermission(PermissionRequest(token=token))
