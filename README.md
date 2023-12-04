@@ -5,6 +5,8 @@ Then run the command:
 docker-compose up --build
 ```
 
+WARNING: you will not be able to use this application unless you have an [authentication-sync](https://github.com/gmalanchuk/authentication-sync) container running
+
 If you want to populate the database with data:
 ```sh
 docker-compose exec task sh
