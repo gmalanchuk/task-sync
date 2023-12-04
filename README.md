@@ -12,3 +12,8 @@ If you want to populate the database with data:
 docker-compose exec task sh
 python manage.py loaddata database.json
 ```
+
+If you want to use the pre-commit:
+```sh
+pre-commit install
+```
