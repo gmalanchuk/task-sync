@@ -19,7 +19,7 @@ class Checks:
 
         return role_or_error_message
 
-    def is_staff(self, request: Any, *args: Any, **kwargs: Any) -> CustomAPIException | None:
+    def is_staff(self, request: Any, *args: Any, **kwargs: Any) -> CustomAPIException | str:
         role = self.is_authenticated(request)
 
         if role not in ("staff", "admin"):
@@ -27,7 +27,7 @@ class Checks:
                 detail="Permission Denied: You do not have sufficient privileges to perform this action",
                 status_code=status.HTTP_401_UNAUTHORIZED,
             )
-        return None
+        return role
 
     def is_admin(self, request: Any, *args: Any, **kwargs: Any) -> CustomAPIException | None:
         role = self.is_staff(request)
