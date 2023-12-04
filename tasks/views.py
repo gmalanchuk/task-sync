@@ -1,7 +1,12 @@
+from typing import Any
+
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.viewsets import ModelViewSet
 
 from tasks.models import Board, Column, Task
+from tasks.permissions.is_admin import is_admin_user
+from tasks.permissions.is_authenticated import is_authenticated_user
+from tasks.permissions.is_staff import is_staff_user
 from tasks.serializers import BoardSerializer, ColumnSerializer, TaskSerializer
 
 
@@ -10,6 +15,18 @@ class BoardViewSet(ModelViewSet):
     serializer_class = BoardSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ("owner_id",)
+
+    @is_authenticated_user
+    def list(self, request: Any, *args: Any, **kwargs: Any) -> Any:
+        return super().list(request, *args, **kwargs)
+
+    @is_admin_user
+    def create(self, request: Any, *args: Any, **kwargs: Any) -> Any:
+        return super().create(request, *args, **kwargs)
+
+    @is_staff_user
+    def retrieve(self, request: Any, *args: Any, **kwargs: Any) -> Any:
+        return super().retrieve(request, *args, **kwargs)
 
 
 class ColumnViewSet(ModelViewSet):

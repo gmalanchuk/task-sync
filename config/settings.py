@@ -3,6 +3,7 @@ import socket
 from pathlib import Path
 
 from dotenv import load_dotenv
+from rest_framework import status
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -19,6 +20,8 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = "True" if str(os.environ.get("DEBUG")).lower() == "true" else "False"
+AUTHENTICATION_SERVICE_DOMAIN = os.environ.get("AUTHENTICATION_SERVICE_DOMAIN")
+GRPC_PORT = os.environ.get("GRPC_PORT")
 
 ALLOWED_HOSTS: list = []
 
@@ -81,11 +84,11 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("DB_NAME"),
-        "USER": os.environ.get("DB_USER"),
-        "PASSWORD": os.environ.get("DB_PASS"),
-        "HOST": os.environ.get("DB_HOST"),
-        "PORT": os.environ.get("DB_PORT"),
+        "NAME": os.environ.get("POSTGRES_NAME"),
+        "USER": os.environ.get("POSTGRES_USER"),
+        "PASSWORD": os.environ.get("POSTGRES_PASS"),
+        "HOST": os.environ.get("POSTGRES_HOST"),
+        "PORT": os.environ.get("POSTGRES_PORT"),
     }
 }
 
@@ -164,4 +167,24 @@ LOGGING = {
             "level": "WARNING",
         },
     },
+}
+
+grpc_to_http_errors = {
+    "OK": status.HTTP_200_OK,
+    "CANCELLED": status.HTTP_400_BAD_REQUEST,
+    "UNKNOWN": status.HTTP_500_INTERNAL_SERVER_ERROR,
+    "INVALID_ARGUMENT": status.HTTP_400_BAD_REQUEST,
+    "DEADLINE_EXCEEDED": status.HTTP_504_GATEWAY_TIMEOUT,
+    "NOT_FOUND": status.HTTP_404_NOT_FOUND,
+    "ALREADY_EXISTS": status.HTTP_409_CONFLICT,
+    "PERMISSION_DENIED": status.HTTP_403_FORBIDDEN,
+    "RESOURCE_EXHAUSTED": status.HTTP_429_TOO_MANY_REQUESTS,
+    "FAILED_PRECONDITION": status.HTTP_400_BAD_REQUEST,
+    "ABORTED": status.HTTP_409_CONFLICT,
+    "OUT_OF_RANGE": status.HTTP_400_BAD_REQUEST,
+    "UNIMPLEMENTED": status.HTTP_501_NOT_IMPLEMENTED,
+    "INTERNAL": status.HTTP_500_INTERNAL_SERVER_ERROR,
+    "UNAVAILABLE": status.HTTP_503_SERVICE_UNAVAILABLE,
+    "DATA_LOSS": status.HTTP_500_INTERNAL_SERVER_ERROR,
+    "UNAUTHENTICATED": status.HTTP_401_UNAUTHORIZED,
 }

@@ -20,6 +20,7 @@ mypy = "^1.6.1"
 drf-spectacular = "^0.26.5"
 django-debug-toolbar = "^4.2.0"
 django-filter = "^23.3"
+grpcio-tools = "^1.59.3"
 
 
 [build-system]
@@ -33,11 +34,4 @@ lines_after_imports = 2
 
 [tool.black]
 line-length = 120
-
-[tool.mypy]
-python_version = 3.11
-disallow_untyped_defs = true
-check_untyped_defs = true
-ignore_missing_imports = true
-explicit_package_bases = true
-exclude = ['venv', 'manage.py', 'migrations']
+exclude = '/protos/'

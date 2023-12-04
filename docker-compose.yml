@@ -2,6 +2,7 @@ version: '3'
 
 services:
   task:
+    container_name: task
     build: .
     restart: always
     volumes:
@@ -13,9 +14,13 @@ services:
     env_file:
       - .env
     depends_on:
-      - db
+      - postgres
+    networks:
+      - network
 
-  db:
+  postgres:
+    container_name: task-postgres
+    hostname: ${POSTGRES_HOST}
     image: postgres:alpine
     restart: always
     volumes:
@@ -23,13 +28,21 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - postgres_data:/var/lib/postgresql/data/
     ports:
-      - "${DB_PORT}:5433"
+      - "${POSTGRES_PORT}:5433"
     environment:
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASS}
-      - PGPORT=${DB_PORT}
+      - POSTGRES_DB=${POSTGRES_NAME}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASS}
+      - PGPORT=5433
+    networks:
+      - network
 
 
 volumes:
   postgres_data:
+
+
+networks:
+  network:
+    name: authentication_network
+    external: true
