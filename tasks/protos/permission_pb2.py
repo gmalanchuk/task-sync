@@ -15,17 +15,21 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1dtasks/protos/permission.proto\x12\npermission\"\"\n\x11PermissionRequest\x12\r\n\x05token\x18\x01 \x01(\t\"\"\n\x12PermissionResponse\x12\x0c\n\x04role\x18\x01 \x01(\t2`\n\nPermission\x12R\n\x0f\x43heckPermission\x12\x1d.permission.PermissionRequest\x1a\x1e.permission.PermissionResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1dtasks/protos/permission.proto\x12\npermission\"!\n\x10\x43heckRoleRequest\x12\r\n\x05token\x18\x01 \x01(\t\"!\n\x11\x43heckRoleResponse\x12\x0c\n\x04role\x18\x01 \x01(\t\"#\n\x12\x43heckUserIDRequest\x12\r\n\x05token\x18\x01 \x01(\t\"&\n\x13\x43heckUserIDResponse\x12\x0f\n\x07user_id\x18\x01 \x01(\x04\x32\xaa\x01\n\nPermission\x12J\n\tCheckRole\x12\x1c.permission.CheckRoleRequest\x1a\x1d.permission.CheckRoleResponse\"\x00\x12P\n\x0b\x43heckUserID\x12\x1e.permission.CheckUserIDRequest\x1a\x1f.permission.CheckUserIDResponse\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'tasks.protos.permission_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
-  _globals['_PERMISSIONREQUEST']._serialized_start=45
-  _globals['_PERMISSIONREQUEST']._serialized_end=79
-  _globals['_PERMISSIONRESPONSE']._serialized_start=81
-  _globals['_PERMISSIONRESPONSE']._serialized_end=115
-  _globals['_PERMISSION']._serialized_start=117
-  _globals['_PERMISSION']._serialized_end=213
+  _globals['_CHECKROLEREQUEST']._serialized_start=45
+  _globals['_CHECKROLEREQUEST']._serialized_end=78
+  _globals['_CHECKROLERESPONSE']._serialized_start=80
+  _globals['_CHECKROLERESPONSE']._serialized_end=113
+  _globals['_CHECKUSERIDREQUEST']._serialized_start=115
+  _globals['_CHECKUSERIDREQUEST']._serialized_end=150
+  _globals['_CHECKUSERIDRESPONSE']._serialized_start=152
+  _globals['_CHECKUSERIDRESPONSE']._serialized_end=190
+  _globals['_PERMISSION']._serialized_start=193
+  _globals['_PERMISSION']._serialized_end=363
 # @@protoc_insertion_point(module_scope)
