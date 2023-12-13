@@ -7,7 +7,7 @@ from tasks.protos.permission_pb2 import RoleUserIDRequest
 from tasks.protos.permission_pb2_grpc import PermissionStub
 
 
-def check_role_and_userid(token: str) -> dict | str | None:
+def check_role_and_userid(token: str) -> dict | None:
     with grpc.insecure_channel(f"{AUTHENTICATION_SERVICE_DOMAIN}:{GRPC_PORT}") as channel:
         stub = PermissionStub(channel)
         try:
@@ -20,4 +20,4 @@ def check_role_and_userid(token: str) -> dict | str | None:
                 status_code, data = match.group(1), match.group(2)
                 return {"data": data, "status": grpc_to_http_errors[status_code]}
 
-        return None
+    return None
