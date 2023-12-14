@@ -12,28 +12,28 @@ from tasks.models import Board
 
 class Checks:
     @staticmethod
-    def __check_role_and_userid(request: Any) -> dict | None:
+    def __check_role_and_userid(request: Any) -> dict:
         token = request.COOKIES.get("access_token")
         return check_role_and_userid(token)
 
-    def is_authenticated(self, request: Any, *args: Any, **kwargs: Any) -> dict | None:
+    def is_authenticated(self, request: Any, *args: Any, **kwargs: Any) -> dict:
         role_and_userid = self.__check_role_and_userid(request)
         return role_and_userid
 
-    def is_staff(self, request: Any, *args: Any, **kwargs: Any) -> dict | None:
+    def is_staff(self, request: Any, *args: Any, **kwargs: Any) -> dict:
         role_and_userid = self.is_authenticated(request)
 
-        if role_and_userid and role_and_userid["role"] not in ("staff", "admin"):
+        if role_and_userid["role"] not in ("staff", "admin"):
             raise CustomAPIException(
                 detail="Permission Denied: You do not have sufficient privileges to perform this action",
                 status_code=status.HTTP_401_UNAUTHORIZED,
             )
         return role_and_userid
 
-    def is_admin(self, request: Any, *args: Any, **kwargs: Any) -> dict | None:
+    def is_admin(self, request: Any, *args: Any, **kwargs: Any) -> dict:
         role_and_userid = self.is_staff(request)
 
-        if role_and_userid and role_and_userid["role"] != "admin":
+        if role_and_userid["role"] != "admin":
             raise CustomAPIException(
                 detail="Permission Denied: You do not have sufficient privileges to perform this action",
                 status_code=status.HTTP_401_UNAUTHORIZED,
