@@ -1,5 +1,6 @@
 import os
 import socket
+from logging import getLogger
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -168,6 +169,8 @@ LOGGING = {
         },
     },
 }
+
+logger = getLogger("tasks")
 
 grpc_to_http_errors = {
     "OK": status.HTTP_200_OK,
