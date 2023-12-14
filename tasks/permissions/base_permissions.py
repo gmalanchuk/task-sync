@@ -10,7 +10,7 @@ from tasks.grpc_services.permission import check_role_and_userid
 from tasks.models import Board
 
 
-class Checks:
+class BasePermissions:
     @staticmethod
     def __check_role_and_userid(request: Any) -> dict:
         token = request.COOKIES.get("access_token")

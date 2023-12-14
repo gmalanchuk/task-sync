@@ -5,9 +5,9 @@ from tasks import views
 
 
 router = DefaultRouter()
-router.register(prefix="tasks", viewset=views.TaskViewSet)
+router.register(prefix="tasks", viewset=views.TaskViewSet, basename="task")
 router.register(prefix="boards", viewset=views.BoardViewSet, basename="board")
-router.register(prefix="columns", viewset=views.ColumnViewSet)
+router.register(prefix="columns", viewset=views.ColumnViewSet, basename="column")
 
 urlpatterns = [
     path("", include(router.urls)),
