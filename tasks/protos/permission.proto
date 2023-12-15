@@ -3,13 +3,14 @@ syntax = "proto3";
 package permission;
 
 service Permission {
-  rpc CheckPermission (PermissionRequest) returns (PermissionResponse) {}
+  rpc CheckRoleUserID (RoleUserIDRequest) returns (RoleUserIDResponse) {}
 }
 
-message PermissionRequest {
+message RoleUserIDRequest {
   string token = 1;
 }
 
-message PermissionResponse {
+message RoleUserIDResponse {
   string role = 1;
+  uint64 user_id = 2;
 }

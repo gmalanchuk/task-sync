@@ -7,14 +7,16 @@ from google.protobuf import message as _message
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
-class PermissionRequest(_message.Message):
+class RoleUserIDRequest(_message.Message):
     __slots__ = ["token"]
     TOKEN_FIELD_NUMBER: _ClassVar[int]
     token: str
     def __init__(self, token: _Optional[str] = ...) -> None: ...
 
-class PermissionResponse(_message.Message):
-    __slots__ = ["role"]
+class RoleUserIDResponse(_message.Message):
+    __slots__ = ["role", "user_id"]
     ROLE_FIELD_NUMBER: _ClassVar[int]
+    USER_ID_FIELD_NUMBER: _ClassVar[int]
     role: str
-    def __init__(self, role: _Optional[str] = ...) -> None: ...
+    user_id: int
+    def __init__(self, role: _Optional[str] = ..., user_id: _Optional[int] = ...) -> None: ...

@@ -15,17 +15,17 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1dtasks/protos/permission.proto\x12\npermission\"\"\n\x11PermissionRequest\x12\r\n\x05token\x18\x01 \x01(\t\"\"\n\x12PermissionResponse\x12\x0c\n\x04role\x18\x01 \x01(\t2`\n\nPermission\x12R\n\x0f\x43heckPermission\x12\x1d.permission.PermissionRequest\x1a\x1e.permission.PermissionResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1dtasks/protos/permission.proto\x12\npermission\"\"\n\x11RoleUserIDRequest\x12\r\n\x05token\x18\x01 \x01(\t\"3\n\x12RoleUserIDResponse\x12\x0c\n\x04role\x18\x01 \x01(\t\x12\x0f\n\x07user_id\x18\x02 \x01(\x04\x32`\n\nPermission\x12R\n\x0f\x43heckRoleUserID\x12\x1d.permission.RoleUserIDRequest\x1a\x1e.permission.RoleUserIDResponse\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'tasks.protos.permission_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
-  _globals['_PERMISSIONREQUEST']._serialized_start=45
-  _globals['_PERMISSIONREQUEST']._serialized_end=79
-  _globals['_PERMISSIONRESPONSE']._serialized_start=81
-  _globals['_PERMISSIONRESPONSE']._serialized_end=115
-  _globals['_PERMISSION']._serialized_start=117
-  _globals['_PERMISSION']._serialized_end=213
+  _globals['_ROLEUSERIDREQUEST']._serialized_start=45
+  _globals['_ROLEUSERIDREQUEST']._serialized_end=79
+  _globals['_ROLEUSERIDRESPONSE']._serialized_start=81
+  _globals['_ROLEUSERIDRESPONSE']._serialized_end=132
+  _globals['_PERMISSION']._serialized_start=134
+  _globals['_PERMISSION']._serialized_end=230
 # @@protoc_insertion_point(module_scope)
