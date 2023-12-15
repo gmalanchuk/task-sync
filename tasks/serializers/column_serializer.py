@@ -5,13 +5,7 @@ from rest_framework.serializers import ModelSerializer
 from tasks.models.column_model import Column
 
 
-class ColumnListRetrieveSerializer(ModelSerializer):
-    class Meta:
-        model = Column
-        fields = "__all__"
-
-
-class ColumnPutPatchPostSerializer(ModelSerializer):
+class ColumnSerializer(ModelSerializer):
     class Meta:
         model = Column
         fields = "__all__"

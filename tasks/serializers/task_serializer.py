@@ -4,13 +4,7 @@ from tasks.models.tag_model import Tag
 from tasks.models.task_model import Task
 
 
-class TaskListRetrieveSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Task
-        fields = "__all__"
-
-
-class TaskPutPatchPostSerializer(serializers.ModelSerializer):
+class TaskSerializer(serializers.ModelSerializer):
     tags = serializers.SlugRelatedField(many=True, slug_field="title", required=False, queryset=Tag.objects.all())
 
     class Meta:

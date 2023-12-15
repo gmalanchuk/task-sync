@@ -1,3 +1,3 @@
-from tasks.serializers.board_serializer import BoardListRetrieveSerializer, BoardPutPatchPostSerializer
-from tasks.serializers.column_serializer import ColumnListRetrieveSerializer, ColumnPutPatchPostSerializer
-from tasks.serializers.task_serializer import TaskListRetrieveSerializer, TaskPutPatchPostSerializer
+from tasks.serializers.board_serializer import BoardSerializer
+from tasks.serializers.column_serializer import ColumnSerializer
+from tasks.serializers.task_serializer import TaskSerializer
