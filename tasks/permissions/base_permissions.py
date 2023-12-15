@@ -1,13 +1,13 @@
 import re
 from typing import Any
 
+from django.db.models import Model
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 
 from config.settings import logger
 from tasks.exceptions import CustomAPIException
 from tasks.grpc_services.permission import check_role_and_userid
-from tasks.models import Board
 
 
 class BasePermissions:
@@ -40,20 +40,19 @@ class BasePermissions:
             )
         return role_and_userid
 
-    def is_admin_or_owner(self, request: Any, *args: Any, **kwargs: Any) -> None:
+    def is_admin_or_owner(self, request: Any, model: Model, *args: Any, **kwargs: Any) -> None:
         """ONLY FOR 'PUT', 'PATCH', 'DELETE' METHODS"""
 
         role_and_userid = self.__check_role_and_userid(request)
         if role_and_userid:
-            user_id = role_and_userid["user_id"]
+            current_user_id = role_and_userid["user_id"]
 
-            if user_id and request.method in ("PUT", "PATCH", "DELETE"):
+            if request.method in ("PUT", "PATCH", "DELETE"):
                 match = re.search(r"\d+", request.path_info)
                 if match:
-                    board_id = match.group(0)
-                    board_owner_id = get_object_or_404(Board, id=board_id).owner_id
-
-                    if board_owner_id != user_id:
+                    obj_id = match.group(0)
+                    obj_owner_id = get_object_or_404(model, id=obj_id).owner_id
+                    if obj_owner_id != current_user_id:
                         self.is_admin(request)
             else:
                 logger.error("The is_admin_or_owner decorator can only be used in the PUT, PATCH, DELETE methods")

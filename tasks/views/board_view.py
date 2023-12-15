@@ -23,14 +23,14 @@ class BoardViewSet(ModelViewSet):
     def create(self, request: Any, *args: Any, **kwargs: Any) -> Any:
         return super().create(request, *args, **kwargs)
 
-    @is_admin_or_owner_user
+    @is_admin_or_owner_user(queryset)
     def update(self, request: Any, *args: Any, **kwargs: Any) -> Any:
         return super().update(request, *args, **kwargs)
 
-    @is_admin_or_owner_user
+    @is_admin_or_owner_user(queryset)
     def partial_update(self, request: Any, *args: Any, **kwargs: Any) -> Any:
         return super().partial_update(request, *args, **kwargs)
 
-    @is_admin_or_owner_user
+    @is_admin_or_owner_user(queryset)
     def destroy(self, request: Any, *args: Any, **kwargs: Any) -> Any:
         return super().destroy(request, *args, **kwargs)
