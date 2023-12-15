@@ -4,12 +4,19 @@ from tasks.models.tag_model import Tag
 from tasks.models.task_model import Task
 
 
-class TaskSerializer(serializers.ModelSerializer):
+class TaskListRetrieveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = "__all__"
+
+
+class TaskPutPatchPostSerializer(serializers.ModelSerializer):
     tags = serializers.SlugRelatedField(many=True, slug_field="title", required=False, queryset=Tag.objects.all())
 
     class Meta:
         model = Task
         fields = "__all__"
+        read_only_fields = ("owner_id",)
 
     def is_valid(self, *, raise_exception: bool = False) -> bool:
         self.tags = self.initial_data.pop("tags", [])
@@ -17,6 +24,8 @@ class TaskSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data: dict) -> Task:
         task = Task.objects.create(**validated_data)
+
+        # TODO здесь проставить owner_id
 
         for tag in self.tags:
             tag_obj, _ = Tag.objects.get_or_create(title=tag)
