@@ -1,4 +1,4 @@
-from tasks.rabbitmq_services.connection import ConnectionToRabbitMQ
+from tasks.rabbitmq.connection import ConnectionToRabbitMQ
 
 
 def event_notification() -> None:

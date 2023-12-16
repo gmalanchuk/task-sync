@@ -5,7 +5,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from tasks.models import Board
 from tasks.permissions import is_admin_or_owner_user, is_authenticated_user
-from tasks.rabbitmq_services.event import event_notification
+from tasks.rabbitmq.producers import event_notification
 from tasks.serializers import BoardSerializer
 
 
