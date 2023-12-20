@@ -7,45 +7,45 @@ from rest_framework import status
 
 from config.settings import logger
 from tasks.exceptions import CustomAPIException
-from tasks.grpc_services.permission import check_role_and_userid
+from tasks.grpc_services.user import get_user_info
 
 
 class BasePermissions:
     @staticmethod
-    def __check_role_and_userid(request: Any) -> dict:
+    def __get_user_info(request: Any) -> dict:
         token = request.COOKIES.get("access_token")
-        return check_role_and_userid(token)
+        return get_user_info(token)
 
     def is_authenticated(self, request: Any, *args: Any, **kwargs: Any) -> dict:
-        role_and_userid = self.__check_role_and_userid(request)
-        return role_and_userid
+        user_info = self.__get_user_info(request)
+        return user_info
 
     def is_staff(self, request: Any, *args: Any, **kwargs: Any) -> dict:
-        role_and_userid = self.is_authenticated(request)
+        user_info = self.is_authenticated(request)
 
-        if role_and_userid["role"] not in ("staff", "admin"):
+        if user_info["role"] not in ("staff", "admin"):
             raise CustomAPIException(
                 detail="Permission Denied: You do not have sufficient privileges to perform this action",
                 status_code=status.HTTP_401_UNAUTHORIZED,
             )
-        return role_and_userid
+        return user_info
 
     def is_admin(self, request: Any, *args: Any, **kwargs: Any) -> dict:
-        role_and_userid = self.is_staff(request)
+        user_info = self.is_staff(request)
 
-        if role_and_userid["role"] != "admin":
+        if user_info["role"] != "admin":
             raise CustomAPIException(
                 detail="Permission Denied: You do not have sufficient privileges to perform this action",
                 status_code=status.HTTP_401_UNAUTHORIZED,
             )
-        return role_and_userid
+        return user_info
 
     def is_admin_or_owner(self, request: Any, model: Model, *args: Any, **kwargs: Any) -> None:
         """ONLY FOR 'PUT', 'PATCH', 'DELETE' METHODS"""
 
-        role_and_userid = self.__check_role_and_userid(request)
-        if role_and_userid:
-            current_user_id = role_and_userid["user_id"]
+        user_info = self.__get_user_info(request)
+        if user_info:
+            current_user_id = user_info["user_id"]
 
             if request.method in ("PUT", "PATCH", "DELETE"):
                 match = re.search(r"\d+", request.path_info)
