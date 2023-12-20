@@ -6,6 +6,8 @@ from tasks.permissions.base_permissions import BasePermissions
 
 
 def is_admin_or_owner_user(queryset: QuerySet) -> Any:
+    """ONLY FOR 'PUT', 'PATCH', 'DELETE' METHODS"""
+
     def decorator(view_func: Callable) -> Callable:
         def wrapper(obj: Any, request: Any, *args: Any, **kwargs: Any) -> Any:
             model = queryset.model
