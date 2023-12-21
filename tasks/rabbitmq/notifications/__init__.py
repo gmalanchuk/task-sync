@@ -1,0 +1,1 @@
+from tasks.rabbitmq.notifications.event_notification import event_notification

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from tasks.grpc_services.permission import check_role_and_userid
+from tasks.grpc_services.user import get_user_info
 from tasks.models.tag_model import Tag
 from tasks.models.task_model import Task
 
@@ -21,7 +21,7 @@ class TaskSerializer(serializers.ModelSerializer):
         task = Task.objects.create(**validated_data)
 
         token = self.context["request"].COOKIES.get("access_token")
-        task.owner_id = check_role_and_userid(token)["user_id"]
+        task.owner_id = get_user_info(token)["user_id"]
 
         for tag in self.tags:
             tag_obj, _ = Tag.objects.get_or_create(title=tag)

@@ -23,6 +23,9 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = "True" if str(os.environ.get("DEBUG")).lower() == "true" else "False"
 AUTHENTICATION_SERVICE_DOMAIN = os.environ.get("AUTHENTICATION_SERVICE_DOMAIN")
 GRPC_PORT = os.environ.get("GRPC_PORT")
+RABBITMQ_HOST = os.environ.get("RABBITMQ_HOST")
+RABBITMQ_USER = os.environ.get("RABBITMQ_USER")
+RABBITMQ_PASS = os.environ.get("RABBITMQ_PASS")
 
 ALLOWED_HOSTS: list = []
 

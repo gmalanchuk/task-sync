@@ -4,16 +4,22 @@ import grpc
 
 from config.settings import AUTHENTICATION_SERVICE_DOMAIN, GRPC_PORT, grpc_to_http_errors
 from tasks.exceptions import CustomAPIException
-from tasks.protos.permission_pb2 import RoleUserIDRequest
-from tasks.protos.permission_pb2_grpc import PermissionStub
+from tasks.protos.user_pb2 import UserRequest
+from tasks.protos.user_pb2_grpc import UserStub
 
 
-def check_role_and_userid(token: str) -> dict:
+def get_user_info(token: str) -> dict:
     with grpc.insecure_channel(f"{AUTHENTICATION_SERVICE_DOMAIN}:{GRPC_PORT}") as channel:
-        stub = PermissionStub(channel)
+        stub = UserStub(channel)
         try:
-            response = stub.CheckRoleUserID(RoleUserIDRequest(token=token))
-            return {"role": response.role, "user_id": response.user_id}
+            response = stub.CheckUser(UserRequest(token=token))
+            return {
+                "user_id": response.user_id,
+                "username": response.username,
+                "email": response.email,
+                "name": response.name,
+                "role": response.role,
+            }
         except grpc.RpcError as e:
             error_message = e.details()
             match = re.search(r"<StatusCode\.(\w+).*?>, '(.*?)'", error_message)

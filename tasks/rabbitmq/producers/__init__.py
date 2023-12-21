@@ -1,0 +1,1 @@
+from tasks.rabbitmq.producers.event_producer import producer_event_notification
