@@ -8,6 +8,7 @@ from tasks.models.tag_model import Tag
 class Task(AbsTimeStampModel, AbsOwnerIDModel):
     title = models.CharField(max_length=64)
     executor_id = models.IntegerField(null=True, blank=True)
+    deadline = models.DateTimeField(null=True, blank=True)
     column = models.ForeignKey(to=Column, on_delete=models.CASCADE)
     tags = models.ManyToManyField(to=Tag)
 
