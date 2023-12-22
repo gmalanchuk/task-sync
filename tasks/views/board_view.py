@@ -3,6 +3,7 @@ from typing import Any
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.viewsets import ModelViewSet
 
+from config.celery import test1, test2
 from tasks.models import Board
 from tasks.permissions import is_admin_or_owner_user, is_authenticated_user
 from tasks.rabbitmq.notifications import event_notification
@@ -14,6 +15,11 @@ class BoardViewSet(ModelViewSet):
     serializer_class = BoardSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_fields = ("owner_id",)
+
+    def list(self, request: Any, *args: Any, **kwargs: Any) -> Any:
+        test1.delay()
+        test2.delay()
+        return super().list(request, *args, **kwargs)
 
     @event_notification(queryset=queryset)
     @is_authenticated_user

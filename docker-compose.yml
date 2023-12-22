@@ -38,6 +38,7 @@ services:
       - network
 
   rabbitmq:
+    container_name: task-rabbitmq
     image: rabbitmq:3.12.10-management
     hostname: ${RABBITMQ_HOST}
     restart: always
@@ -45,11 +46,24 @@ services:
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}
     ports:
-      - '${RABBITMQ_PORT}:15672'
+      - '${RABBITMQ_PORT}:5672'
+      - '${RABBITMQ_INTERFACE_PORT}:15672'
     networks:
       - network
     depends_on:
       - task
+
+  celery:
+    container_name: task-celery
+    build: .
+    command: 'celery -A config worker --loglevel=info'
+    env_file:
+      - .env
+    depends_on:
+      - rabbitmq
+    networks:
+      - network
+
 
 volumes:
   postgres_data:

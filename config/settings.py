@@ -26,6 +26,7 @@ GRPC_PORT = os.environ.get("GRPC_PORT")
 RABBITMQ_HOST = os.environ.get("RABBITMQ_HOST")
 RABBITMQ_USER = os.environ.get("RABBITMQ_USER")
 RABBITMQ_PASS = os.environ.get("RABBITMQ_PASS")
+RABBITMQ_PORT = os.environ.get("RABBITMQ_PORT")
 
 ALLOWED_HOSTS: list = []
 
@@ -194,3 +195,5 @@ grpc_to_http_errors = {
     "DATA_LOSS": status.HTTP_500_INTERNAL_SERVER_ERROR,
     "UNAUTHENTICATED": status.HTTP_401_UNAUTHORIZED,
 }
+
+CELERY_BROKER_URL = f"amqp://{RABBITMQ_USER}:{RABBITMQ_PASS}@{RABBITMQ_HOST}:{RABBITMQ_PORT}/"
