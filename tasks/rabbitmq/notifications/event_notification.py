@@ -14,9 +14,12 @@ def event_notification(queryset: QuerySet) -> Any:
     def decorator(view_func: Callable) -> Callable:
         def wrapper(obj: Any, request: Any, *args: Any, **kwargs: Any) -> Any:
             if request.method in ("POST", "PUT", "PATCH", "DELETE"):
+                if request.method != "DELETE":
+                    response = view_func(obj, request, *args, **kwargs)
+
                 model = queryset.model
-                obj_model = get_object_or_404(model, id=request.path.split("/")[-2])
-                response = view_func(obj, request, *args, **kwargs)
+                pk = response.data["id"] if request.method == "POST" else kwargs["pk"]
+                obj_model = get_object_or_404(model, id=pk)
 
                 access_token = request.COOKIES.get("access_token")
                 user_info = get_user_info(token=access_token)
@@ -24,6 +27,9 @@ def event_notification(queryset: QuerySet) -> Any:
                 is_owner = False
                 if obj_model.owner_id == user_info["user_id"]:
                     is_owner = True
+
+                if request.method == "DELETE":
+                    response = view_func(obj, request, *args, **kwargs)
 
                 producer_event_notification(
                     username=user_info["username"],
