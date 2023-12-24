@@ -56,22 +56,29 @@ services:
   celery:
     container_name: task-celery
     build: .
+    restart: always
+    volumes:
+      - ./:/task
     command: 'celery -A config worker --loglevel=info'
     env_file:
       - .env
     depends_on:
+      - task
       - rabbitmq
     networks:
       - network
 
   flower:
     container_name: task-flower
+    restart: always
     build: .
     command: 'celery -A config flower'
     ports:
       - '${FLOWER_PORT}:5555'
     depends_on:
       - celery
+      - task
+      - rabbitmq
     networks:
       - network
 

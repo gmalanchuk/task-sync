@@ -1,5 +1,8 @@
+from datetime import datetime, timedelta
+
 from rest_framework import serializers
 
+from tasks.celery_tasks import celery_calendar_notification
 from tasks.grpc_services.user import get_user_info
 from tasks.models.tag_model import Tag
 from tasks.models.task_model import Task
@@ -28,4 +31,8 @@ class TaskSerializer(serializers.ModelSerializer):
             task.tags.add(tag_obj)
 
         task.save()
+        if task.deadline:
+            eta_time = datetime.utcnow() + timedelta(seconds=15)
+            celery_calendar_notification.apply_async(args=(task.deadline,), eta=eta_time)
+
         return task
