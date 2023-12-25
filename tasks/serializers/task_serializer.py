@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 from rest_framework import serializers
 
 from tasks.celery_tasks import celery_calendar_notification
-from tasks.grpc_services.user import get_user_info_by_token
+from tasks.grpc_services.user import get_user_info_by_id, get_user_info_by_token
 from tasks.models.tag_model import Tag
 from tasks.models.task_model import Task
 
@@ -39,8 +39,10 @@ class TaskSerializer(serializers.ModelSerializer):
 
         if task.deadline:
             eta_time = datetime.utcnow()  # todo task.deadline - datetime.utcnow(hours=1)
-            # recipient_email = # todo взять инфу из микросервиса аутентификации по айди
-            celery_calendar_notification.apply_async(args=(task.id, user_info["username"], Task.__name__), eta=eta_time)
+            recipient_email = get_user_info_by_id(user_id=task.executor_id)["email"]
+            celery_calendar_notification.apply_async(
+                args=(task.id, user_info["username"], recipient_email, Task.__name__), eta=eta_time
+            )
 
         task.save()
         return task
