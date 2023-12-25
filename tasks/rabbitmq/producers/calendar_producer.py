@@ -1,7 +1,9 @@
 from tasks.rabbitmq.connection import ConnectionToRabbitMQ
 
 
-def producer_calendar_notification(title: str, owner_username: str, email: str, deadline: str, model_name: str) -> None:
+def producer_calendar_notification(
+    title: str, owner_username: str, email: str, executor_username: str, deadline: str, model_name: str
+) -> None:
     with ConnectionToRabbitMQ() as (channel, connection):
         channel.exchange_declare(exchange="notifications", exchange_type="direct", durable=True)
         channel.queue_declare(queue="calendar", durable=True)
@@ -15,6 +17,7 @@ def producer_calendar_notification(title: str, owner_username: str, email: str, 
                     "title": title,
                     "owner_username": owner_username,
                     "email": email,
+                    "executor_username": executor_username,
                     "deadline": deadline,
                     "model_name": model_name,
                 }

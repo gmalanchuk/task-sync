@@ -30,18 +30,21 @@ class TaskSerializer(serializers.ModelSerializer):
         task = Task.objects.create(**validated_data)
 
         token = self.context["request"].COOKIES.get("access_token")
-        user_info = get_user_info_by_token(token)
-        task.owner_id = user_info["user_id"]
+        owner_info = get_user_info_by_token(token)
+        task.owner_id = owner_info["user_id"]
 
         for tag in self.tags:
             tag_obj, _ = Tag.objects.get_or_create(title=tag)
             task.tags.add(tag_obj)
 
         if task.deadline:
-            eta_time = datetime.utcnow()  # todo task.deadline - datetime.utcnow(hours=1)
-            recipient_email = get_user_info_by_id(user_id=task.executor_id)["email"]
+            executor_info = get_user_info_by_id(user_id=task.executor_id)
+            recipient_email = executor_info["email"]
+            executor_username = executor_info["username"]
+
+            eta_time = task.deadline - timedelta(hours=1)
             celery_calendar_notification.apply_async(
-                args=(task.id, user_info["username"], recipient_email, Task.__name__), eta=eta_time
+                args=(task.id, owner_info["username"], recipient_email, executor_username, Task.__name__), eta=eta_time
             )
 
         task.save()
