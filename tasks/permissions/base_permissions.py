@@ -7,17 +7,17 @@ from rest_framework import status
 
 from config.settings import logger
 from tasks.exceptions import CustomAPIException
-from tasks.grpc_services.user import get_user_info
+from tasks.grpc_services.user import get_user_info_by_token
 
 
 class BasePermissions:
     @staticmethod
-    def __get_user_info(request: Any) -> dict:
+    def __get_user_info_by_token(request: Any) -> dict:
         token = request.COOKIES.get("access_token")
-        return get_user_info(token)
+        return get_user_info_by_token(token)
 
     def is_authenticated(self, request: Any, *args: Any, **kwargs: Any) -> dict:
-        user_info = self.__get_user_info(request)
+        user_info = self.__get_user_info_by_token(request)
         return user_info
 
     def is_staff(self, request: Any, *args: Any, **kwargs: Any) -> dict:
@@ -43,7 +43,7 @@ class BasePermissions:
     def is_admin_or_owner(self, request: Any, model: Model, *args: Any, **kwargs: Any) -> None:
         """ONLY FOR 'PUT', 'PATCH', 'DELETE' METHODS"""
 
-        user_info = self.__get_user_info(request)
+        user_info = self.__get_user_info_by_token(request)
         if user_info:
             current_user_id = user_info["user_id"]
 

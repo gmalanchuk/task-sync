@@ -4,15 +4,15 @@ import grpc
 
 from config.settings import AUTHENTICATION_SERVICE_DOMAIN, GRPC_PORT, grpc_to_http_errors
 from tasks.exceptions import CustomAPIException
-from tasks.protos.user_pb2 import UserRequest
+from tasks.protos.user_pb2 import UserRequestToken
 from tasks.protos.user_pb2_grpc import UserStub
 
 
-def get_user_info(token: str) -> dict:
+def get_user_info_by_token(token: str) -> dict:
     with grpc.insecure_channel(f"{AUTHENTICATION_SERVICE_DOMAIN}:{GRPC_PORT}") as channel:
         stub = UserStub(channel)
         try:
-            response = stub.CheckUser(UserRequest(token=token))
+            response = stub.CheckUserToken(UserRequestToken(token=token))
             return {
                 "user_id": response.user_id,
                 "username": response.username,

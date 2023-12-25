@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 from rest_framework import serializers
 
 from tasks.celery_tasks import celery_calendar_notification
-from tasks.grpc_services.user import get_user_info
+from tasks.grpc_services.user import get_user_info_by_token
 from tasks.models.tag_model import Tag
 from tasks.models.task_model import Task
 
@@ -30,7 +30,7 @@ class TaskSerializer(serializers.ModelSerializer):
         task = Task.objects.create(**validated_data)
 
         token = self.context["request"].COOKIES.get("access_token")
-        user_info = get_user_info(token)
+        user_info = get_user_info_by_token(token)
         task.owner_id = user_info["user_id"]
 
         for tag in self.tags:
