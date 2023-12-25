@@ -1,1 +1,2 @@
+from tasks.rabbitmq.producers.calendar_producer import producer_calendar_notification
 from tasks.rabbitmq.producers.event_producer import producer_event_notification

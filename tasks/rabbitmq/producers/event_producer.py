@@ -18,7 +18,6 @@ def producer_event_notification(
                     "username": username,
                     "title": title,
                     "email": email,
-                    "role": role,
                     "is_owner": is_owner,
                     "http_method": http_method,
                     "model_name": model_name,
