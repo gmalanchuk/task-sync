@@ -39,6 +39,7 @@ class TaskSerializer(serializers.ModelSerializer):
 
         if task.deadline:
             eta_time = datetime.utcnow()  # todo task.deadline - datetime.utcnow(hours=1)
+            # recipient_email = # todo взять инфу из микросервиса аутентификации по айди
             celery_calendar_notification.apply_async(args=(task.id, user_info["username"], Task.__name__), eta=eta_time)
 
         task.save()
