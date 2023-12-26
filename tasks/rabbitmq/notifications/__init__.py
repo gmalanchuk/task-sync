@@ -1,1 +1,2 @@
+from tasks.rabbitmq.notifications.calendar_notification import calendar_notification
 from tasks.rabbitmq.notifications.event_notification import event_notification
