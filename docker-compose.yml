@@ -37,22 +37,6 @@ services:
     networks:
       - network
 
-  rabbitmq:
-    container_name: task-rabbitmq
-    image: rabbitmq:3.12.10-management
-    hostname: ${RABBITMQ_HOST}
-    restart: always
-    environment:
-      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
-      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}
-    ports:
-      - '${RABBITMQ_PORT}:5672'
-      - '${RABBITMQ_INTERFACE_PORT}:15672'
-    networks:
-      - network
-    depends_on:
-      - task
-
   celery:
     container_name: task-celery
     build: .
