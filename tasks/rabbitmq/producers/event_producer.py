@@ -2,9 +2,9 @@ from tasks.rabbitmq.connection import ConnectionToRabbitMQ
 
 
 def producer_event_notification(
-    username: str, title: str, email: str, role: str, is_owner: bool, http_method: str, model_name: str
+    name: str, title: str, email: str, is_owner: bool, http_method: str, model_name: str
 ) -> None:
-    with ConnectionToRabbitMQ() as (channel, connection):
+    with ConnectionToRabbitMQ() as channel:
         channel.exchange_declare(exchange="notifications", exchange_type="direct", durable=True)
         channel.queue_declare(queue="events", durable=True)
         # сообщения, отправленные в обменник notifications с роутом event-notification будут отправлены в очередь events
@@ -15,7 +15,7 @@ def producer_event_notification(
             routing_key="event-notification",
             body=str(
                 {
-                    "username": username,
+                    "name": name,
                     "title": title,
                     "email": email,
                     "is_owner": is_owner,

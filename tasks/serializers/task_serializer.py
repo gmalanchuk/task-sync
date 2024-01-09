@@ -40,11 +40,11 @@ class TaskSerializer(serializers.ModelSerializer):
         if task.deadline:
             executor_info = get_user_info_by_id(user_id=task.executor_id)
             recipient_email = executor_info["email"]
-            executor_username = executor_info["username"]
+            executor_name = executor_info["name"]
 
             eta_time = task.deadline - timedelta(hours=1)
             celery_calendar_notification.apply_async(
-                args=(task.id, owner_info["username"], recipient_email, executor_username, Task.__name__), eta=eta_time
+                args=(task.id, owner_info["name"], recipient_email, executor_name, Task.__name__), eta=eta_time
             )
 
         task.save()

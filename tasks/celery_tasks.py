@@ -6,12 +6,12 @@ from tasks.rabbitmq.notifications import calendar_notification
 
 @celery_app.task(bind=True)
 def celery_calendar_notification(
-    self: Any, obj_id: int, owner_username: str, email: str, executor_username: str, model_name: str
+    _: Any, obj_id: int, owner_name: str, email: str, executor_name: str, model_name: str
 ) -> None:
     calendar_notification(
         obj_id=obj_id,
-        owner_username=owner_username,
+        owner_name=owner_name,
         email=email,
-        executor_username=executor_username,
+        executor_name=executor_name,
         model_name=model_name,
     )

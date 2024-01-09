@@ -32,10 +32,9 @@ def event_notification(queryset: QuerySet) -> Any:
                     response = view_func(obj, request, *args, **kwargs)
 
                 producer_event_notification(
-                    username=user_info["username"],
+                    name=user_info["name"],
                     title=obj_model.title,
                     email=user_info["email"],
-                    role=user_info["role"],
                     is_owner=is_owner,
                     http_method=request.method,
                     model_name=model.__name__.lower(),

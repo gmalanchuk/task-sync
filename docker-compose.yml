@@ -2,7 +2,7 @@ version: '3'
 
 services:
   task:
-    container_name: task
+    container_name: 'task'
     build: .
     restart: always
     volumes:
@@ -19,7 +19,7 @@ services:
       - network
 
   postgres:
-    container_name: task-postgres
+    container_name: 'task-postgres'
     hostname: ${POSTGRES_HOST}
     image: postgres:alpine
     restart: always
@@ -38,7 +38,7 @@ services:
       - network
 
   celery:
-    container_name: task-celery
+    container_name: 'task-celery'
     build: .
     restart: always
     volumes:
@@ -48,12 +48,11 @@ services:
       - .env
     depends_on:
       - task
-      - rabbitmq
     networks:
       - network
 
   flower:
-    container_name: task-flower
+    container_name: 'task-flower'
     restart: always
     build: .
     command: 'celery -A config flower'
@@ -62,9 +61,9 @@ services:
     depends_on:
       - celery
       - task
-      - rabbitmq
     networks:
       - network
+
 
 volumes:
   postgres_data:
