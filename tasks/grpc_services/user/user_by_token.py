@@ -8,7 +8,7 @@ from tasks.protos.user_pb2 import UserRequestToken
 from tasks.protos.user_pb2_grpc import UserStub
 
 
-def get_user_info_by_token(token: str) -> dict:
+def __get_user_info_by_token(token: str) -> dict:
     with grpc.insecure_channel(f"{AUTHENTICATION_SERVICE_DOMAIN}:{GRPC_PORT}") as channel:
         stub = UserStub(channel)
         try:

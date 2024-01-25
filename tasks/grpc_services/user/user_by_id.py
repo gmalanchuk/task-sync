@@ -8,7 +8,7 @@ from tasks.protos.user_pb2 import UserRequestID
 from tasks.protos.user_pb2_grpc import UserStub
 
 
-def get_user_info_by_id(user_id: int) -> dict:
+def __get_user_info_by_id(user_id: int) -> dict:
     with grpc.insecure_channel(f"{AUTHENTICATION_SERVICE_DOMAIN}:{GRPC_PORT}") as channel:
         stub = UserStub(channel)
         try:

@@ -4,7 +4,7 @@ from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404
 
 from config.settings import logger
-from tasks.grpc_services.user import get_user_info_by_token
+from tasks.grpc_services import get_user_info_by_token
 from tasks.rabbitmq.producers import producer_event_notification
 
 
@@ -21,8 +21,7 @@ def event_notification(queryset: QuerySet) -> Any:
                 pk = response.data["id"] if request.method == "POST" else kwargs["pk"]
                 obj_model = get_object_or_404(model, id=pk)
 
-                access_token = request.COOKIES.get("access_token")
-                user_info = get_user_info_by_token(token=access_token)
+                user_info = get_user_info_by_token(request)
 
                 is_owner = False
                 if obj_model.owner_id == user_info["user_id"]:
