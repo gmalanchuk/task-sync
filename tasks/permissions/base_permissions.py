@@ -1,26 +1,21 @@
 import re
-from typing import Any
 
 from django.db.models import Model
 from django.shortcuts import get_object_or_404
 from rest_framework import status
+from rest_framework.request import Request
 
 from config.settings import logger
 from tasks.exceptions import CustomAPIException
-from tasks.grpc_services.user import get_user_info_by_token
+from tasks.grpc_services import get_user_info_by_token
 
 
 class BasePermissions:
-    @staticmethod
-    def __get_user_info_by_token(request: Any) -> dict:
-        token = request.COOKIES.get("access_token")
-        return get_user_info_by_token(token)
-
-    def is_authenticated(self, request: Any, *args: Any, **kwargs: Any) -> dict:
-        user_info = self.__get_user_info_by_token(request)
+    def is_authenticated(self, request: Request, *args: tuple, **kwargs: dict) -> dict:
+        user_info = get_user_info_by_token(request)
         return user_info
 
-    def is_staff(self, request: Any, *args: Any, **kwargs: Any) -> dict:
+    def is_staff(self, request: Request, *args: tuple, **kwargs: dict) -> dict:
         user_info = self.is_authenticated(request)
 
         if user_info["role"] not in ("staff", "admin"):
@@ -30,7 +25,7 @@ class BasePermissions:
             )
         return user_info
 
-    def is_admin(self, request: Any, *args: Any, **kwargs: Any) -> dict:
+    def is_admin(self, request: Request, *args: tuple, **kwargs: dict) -> dict:
         user_info = self.is_staff(request)
 
         if user_info["role"] != "admin":
@@ -40,10 +35,10 @@ class BasePermissions:
             )
         return user_info
 
-    def is_admin_or_owner(self, request: Any, model: Model, *args: Any, **kwargs: Any) -> None:
+    def is_admin_or_owner(self, request: Request, model: Model, *args: tuple, **kwargs: dict) -> None:
         """ONLY FOR 'PUT', 'PATCH', 'DELETE' METHODS"""
 
-        user_info = self.__get_user_info_by_token(request)
+        user_info = get_user_info_by_token(request)
         if user_info:
             current_user_id = user_info["user_id"]
 
